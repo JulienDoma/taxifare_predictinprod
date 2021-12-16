@@ -1,6 +1,6 @@
 
 from sklearn.model_selection import train_test_split
-
+from taxifare.params import BUCKET_NAME, BUCKET_TRAIN_DATA_PATH
 from google.cloud import storage
 
 import pandas as pd
@@ -14,19 +14,12 @@ def get_data(line_count):
 
 def get_data_using_pandas(line_count):
 
-    # get data from aws s3
-    # url = "s3://wagon-public-datasets/taxi-fare-train.csv"
-
     # load n lines from my csv
-    df = pd.read_csv("gs://le-wagon-data/data/train_1k.csv", nrows=line_count)
+    df = pd.read_csv(f"gs://{BUCKET_NAME}/{BUCKET_TRAIN_DATA_PATH}", nrows=line_count)
     return df
 
 
 def get_data_using_blob(line_count):
-
-    # get data from my google storage bucket
-    BUCKET_NAME = "le-wagon-data"
-    BUCKET_TRAIN_DATA_PATH = "data/train_1k.csv"
 
     data_file = "train_1k.csv"
 
@@ -46,7 +39,7 @@ def get_data_using_blob(line_count):
 
 def save_model_to_gcp():
 
-    BUCKET_NAME = "le-wagon-data"
+    BUCKET_NAME = "sandbox-779"
     storage_location = "models/random_forest_model.joblib"
     local_model_filename = "model.joblib"
 
